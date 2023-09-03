@@ -12,12 +12,13 @@ TOKEN = config['token']
 CHANNEL_ID = config['channel_id']
 STATUS_PAGE_URL = config['status_page_url']
 PREFIX = config['prefix']
+intents = discord.Intents.all()
 
-bot = commands.Bot(command_prefix=PREFIX)
+bot = commands.Bot(command_prefix=PREFIX,intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f'Logged in as {bot.user.name} ({bot.user.id})')
+    print(f'Logget inn som {bot.user.name} ({bot.user.id})')
     update_status_embed.start()
 
 @tasks.loop(minutes=1)
@@ -37,6 +38,6 @@ async def update_status_embed():
         )
         await channel.send(embed=embed)
     else:
-        print(f'Error: Failed to fetch status (HTTP {response.status_code})')
+        print(f'FEIL: Kunne ikke innhente status (HTTP {response.status_code})')
 
 bot.run(TOKEN)
